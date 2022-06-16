@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
@@ -19,23 +21,26 @@ class Task
 
     /**
      * @ORM\Column(type="datetime")
+     * 
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
     private $content;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDone;
+    private $isDone = false;
 
     public function getId(): ?int
     {
@@ -78,7 +83,7 @@ class Task
         return $this;
     }
 
-    public function isIsDone(): ?bool
+    public function IsDone(): ?bool
     {
         return $this->isDone;
     }
@@ -89,4 +94,10 @@ class Task
 
         return $this;
     }
+
+    public function toggle($flag)
+    {
+        $this->isDone = $flag;
+    }
 }
+
