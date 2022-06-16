@@ -25,8 +25,8 @@ class TaskController extends AbstractController
     {
         $task = $taskrepository->findAll();
 
-        return $this->render('task/index.html.twig', [
-            'task' => $task,
+        return $this->render('task/listtask.html.twig', [
+            'tasks' => $task,
         ]);
     }
 
@@ -72,7 +72,7 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/update_task.html.twig',['form'=>$form->createView()]);    
+        return $this->render('task/update_task.html.twig',['form'=>$form->createView(),'task'=>$task]);    
     }
 
 
@@ -85,7 +85,7 @@ class TaskController extends AbstractController
         $this->em->flush();
 
         $this->addFlash('success','la tache a bien été supprimé !');
-        return $this->redirectToRoute('app_task');
+        return $this->redirectToRoute('task_list');
     }
 
      /**
