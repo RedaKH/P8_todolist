@@ -20,7 +20,7 @@ class UserController extends AbstractController
         $this->em = $em;
     }
     /**
-     * @Route("/user", name="user_list")
+     * @Route("/admin/user", name="user_list")
      */
     public function index(UserRepository $userRepository): Response
     {

@@ -43,6 +43,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $task->setCreatedAt(new \DateTime());
+            $task->setUser($this->getUser());
             $this->em->persist($task);
             $this->em->flush();
             $this->addFlash('success', 'Votre tache a bien été envoyé');
@@ -64,9 +65,11 @@ class TaskController extends AbstractController
                         
         
 
+
+            
             $this->em->persist($task);
             $this->em->flush();
-            $this->addFlash('msg', 'Votre profil a bien été modifié');
+            $this->addFlash('msg', 'Votre tache a bien été modifié');
 
 
             return $this->redirectToRoute('task_list');
