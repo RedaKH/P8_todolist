@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserUpdateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ class UserController extends AbstractController
         $this->em = $em;
     }
     /**
-     * @Route("/admin/user", name="user_list")
+     * @Route("/user", name="user_list")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -62,7 +63,7 @@ class UserController extends AbstractController
      */
     public function updateUser(Request $request,User $user,UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
-        $form = $this->createForm(UserType::class,$user);
+        $form = $this->createForm(UserUpdateType::class,$user);
 
         $form->handleRequest($request);
 
