@@ -63,9 +63,8 @@ class TaskController extends AbstractController
       /**
      * @Route("/tasks/{id}/edit", name="task_edit")
      */
-    public function updateTask(Request $request): Response
+    public function updateTask(Request $request,Task $task): Response
     {
-        $task = new Task();
         $form = $this->createForm(TaskType::class,$task);
 
         $form->handleRequest($request);
@@ -87,6 +86,8 @@ class TaskController extends AbstractController
         return $this->render('task/update_task.html.twig',['form'=>$form->createView(),'task'=>$task]);    
     }
 
+    
+
 
     /**
      *  @Route("/tasks/{id}/delete", name="task_delete")
@@ -102,6 +103,8 @@ class TaskController extends AbstractController
 
      /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
+     * 
+     * 
      */
     public function toggleTaskAction(Task $task)
     {

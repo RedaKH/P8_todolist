@@ -61,9 +61,9 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function updateUser(Request $request,User $user,UserPasswordHasherInterface $userPasswordHasherInterface): Response
+    public function updateUser(Request $request,User $user,$id,UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
-        $form = $this->createForm(UserUpdateType::class,$user);
+        $form = $this->createForm(UserType::class,$user);
 
         $form->handleRequest($request);
 
