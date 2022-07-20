@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Repository\TaskRepository;
 
 
@@ -97,6 +98,12 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a bien été supprimée.");
     }
+=======
+
+class TaskControllerTest extends WebTestCase
+{
+   
+>>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
 =======
 
 class TaskControllerTest extends WebTestCase

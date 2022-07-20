@@ -33,8 +33,13 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
 <<<<<<< HEAD
+<<<<<<< HEAD
         # - { path: ^/login, roles: IS_ANONYMOUS }
         #- { path: ^/user_create, roles: IS_ANONYMOUS }
+=======
+         - { path: ^/login, roles: IS_ANONYMOUS }
+         - { path: ^/user_create, roles: IS_ANONYMOUS }
+>>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
 =======
          - { path: ^/login, roles: IS_ANONYMOUS }
          - { path: ^/user_create, roles: IS_ANONYMOUS }

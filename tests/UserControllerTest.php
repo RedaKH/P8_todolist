@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class UserControllerTest extends WebTestCase
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
    public function loginAdmin(){
       $client = static::createClient();
 
@@ -82,6 +83,14 @@ class UserControllerTest extends WebTestCase
        $this->assertSelectorTextContains('div.alert-success', "Superbe ! L'utilisateur a bien été modifié");
    }
 
+=======
+   public function testMakeAccount(){
+    $client = static::createClient();
+    $crawler = $client->request('GET','/user_create');
+
+
+   }
+>>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
 =======
    public function testMakeAccount(){
     $client = static::createClient();
