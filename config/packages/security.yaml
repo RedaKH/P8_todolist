@@ -32,20 +32,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-<<<<<<< HEAD
-<<<<<<< HEAD
-        # - { path: ^/login, roles: IS_ANONYMOUS }
-        #- { path: ^/user_create, roles: IS_ANONYMOUS }
-=======
-         - { path: ^/login, roles: IS_ANONYMOUS }
-         - { path: ^/user_create, roles: IS_ANONYMOUS }
->>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
-=======
-         - { path: ^/login, roles: IS_ANONYMOUS }
-         - { path: ^/user_create, roles: IS_ANONYMOUS }
->>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
-         - { path: ^/user, roles: [ROLE_ADMIN] }
-         - { path: ^/, roles: [ROLE_USER, ROLE_ADMIN] }
+ fix-test
+        - { path: ^/login, roles: IS_ANONYMOUS }
+        - { path: ^/users, roles: [ROLE_ADMIN] }
+        - { path: ^/, roles: [ROLE_USER, ROLE_ADMIN] }
+
 
 when@test:
     security:
