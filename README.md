@@ -24,3 +24,7 @@ Installation du projet :
   7/Pour les tests faites cette commande :
   ` php bin/console doctrine:schema:update --env=test --force `
   
+  8/Enfin pour effectuer vos tests faites ceci :
+  
+  ` php bin/phpunit`
+  
