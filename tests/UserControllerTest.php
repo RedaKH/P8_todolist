@@ -2,88 +2,101 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use App\Repository\UserRepository;
 
 class UserControllerTest extends WebTestCase
 {
-   private $client;
-   private $route;
-
-
-    public function setUp(): void
-    {
-        $this->route = '/users/2/edit';
-
-        $this->client = static::createClient();
-
-    }
-    
+<<<<<<< HEAD
+<<<<<<< HEAD
    public function loginAdmin(){
+      $client = static::createClient();
 
-    $userRepository = static::getContainer()->get(UserRepository::class);
-    $testUser = $userRepository->findOneByEmail('vegeta@test.com');
-
-    $this->client->loginUser($testUser);
+      $testUser = static::getContainer()->get(UserRepository::class)->findOneByUser('user');
+      
+      return $client->loginUser($testUser);
 
    }
-   public function loginUser(): void
-   {
+   public function loginUser(){
+      $client = static::createClient();
 
-       $userRepository = static::getContainer()->get(UserRepository::class);
-       $testUser = $userRepository->findOneByEmail('test@test.com');
+      $testUser = static::getContainer()->get(UserRepository::class)->findOneByUser('user');
+      
+      return $client->loginUser($testUser);
 
-       $this->client->loginUser($testUser);
-   } 
+   }
 
-    public function testMakeAccount(){
-      $crawler = $this->client->request('GET', '/user_create');
-      $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+   public function testMakeAccount(){
+      $client = static::createClient();
+      $crawler = $client->request('GET', '/user/create');
+      $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+
       $form = $crawler->selectButton('Ajouter')->form([
-          'user[name]' => "rollo3",
-          'user[plainPassword][first]' => "rollo3",
-          'user[plainPassword][second]' => "rollo3",
-          'user[email]' => "rollo3@test.com",
-        ]);
-      $this->client->submit($form);
-      $crawler = $this->client->followRedirect();
-      $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
+          'user[username]' => 'test',
+          'user[password][first]' => 'testpassword',
+          'user[password][second]' => 'testpassword',
+          'user[email]' => 'test@test.com',
+          'user[roles]' => 'ROLE_USER'
+      ]);
+
+      $client->submit($form);
+      $crawler = $client->followRedirect();
+      $this->assertSelectorTextContains('div.alert-success', "Superbe ! L'utilisateur a bien été ajouté.");
+
+      $testUser = static::getContainer()->get(UserRepository::class)->findOneBy('test');
+      $this->assertInstanceOf(User::class,$testUser);
 
 
-   } 
-   
-   public function testListUser()
+   }
+   public function testSuccesssListUser()
    {
-       $this->loginAdmin();
-       $crawler = $this->client->request('GET', '/user');
+       $client = $this->loginAdmin();
+       $crawler = $client->request('GET', '/users');
 
-       $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+       $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
        $this->assertSelectorTextContains('h1', 'Liste des utilisateurs');
-   } 
+   }
 
-
-   public function testEditUser()
+   public function testFailListUser()
    {
-       $client = $this->loginAdmin('vegeta');
-       
-       $crawler = $this->client->request('GET', $this->route);
+       $client = $this->LoginUser();
+       $crawler = $client->request('GET', '/users');
+
+       $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+   }
+
+   public function testUpdateUser()
+   {
+       $client = $this->loginAdmin();
+       $crawler = $client->request('GET', '/users/3/edit');
        $this->assertResponseIsSuccessful();
 
        $form = $crawler->selectButton('Modifier')->form([
-        'user[name]' => 'test2',
-        'user[plainPassword][first]' => 'test2password',
-        'user[plainPassword][second]' => 'test2password',
-        'user[email]' => 'test2@test2.fr',
-        'user[roles]' => 'ROLE_USER'
+           'user[username]' => 'test2',
+           'user[password][first]' => 'test2password',
+           'user[password][second]' => 'test2password',
+           'user[email]' => 'test2@test2.fr'
        ]);
-       $user = self::getContainer()->get(UserRepository::class);
-   
 
-       $this->client->submit($form);
-       $crawler = $this->client->followRedirect();
-       $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+       $client->submit($form);
+       $this->assertResponseRedirects("/users", Response::HTTP_FOUND);
+       $crawler = $client->followRedirect();
+       $this->assertSelectorTextContains('div.alert-success', "Superbe ! L'utilisateur a bien été modifié");
    }
 
+=======
+   public function testMakeAccount(){
+    $client = static::createClient();
+    $crawler = $client->request('GET','/user_create');
+
+
+   }
+>>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
+=======
+   public function testMakeAccount(){
+    $client = static::createClient();
+    $crawler = $client->request('GET','/user_create');
+
+
+   }
+>>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
 }
