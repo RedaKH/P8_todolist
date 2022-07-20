@@ -3,13 +3,13 @@
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 use App\Repository\TaskRepository;
 
 
 class TaskControllerTest extends WebTestCase
 {//s
+{
 
     public function login(){
         $client = static::createClient();
@@ -28,12 +28,14 @@ class TaskControllerTest extends WebTestCase
             'task[content]'=>'test'
         ]);
 
-<<<<<<< Updated upstream
+
         $client->submit($form);
         $crawler = $client->followRedirect();
         $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a été bien été ajoutée.");
-=======
->>>>>>> Stashed changes
+
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a été bien été ajoutée.");
     }
 
     public function testEditOwnTask()
@@ -87,6 +89,26 @@ class TaskControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', $router->generate('task_list', ['isDone' => 0]));
 
+
+    public function testListDoneTask()
+    {
+        $client = $this->login();
+
+        $router = $client->getContainer()->get('router');
+
+        $crawler = $client->request('GET', $router->generate('task_list', ['isDone' => 1]));
+
+        $this->assertSelectorExists('.glyphicon.glyphicon-ok');
+    }
+
+    public function testListNoDoneTask()
+    {
+        $client = $this->login();
+
+        $router = $client->getContainer()->get('router');
+
+        $crawler = $client->request('GET', $router->generate('task_list', ['isDone' => 0]));
+
         $this->assertSelectorNotExists('.glyphicon.glyphicon-ok');
     }
 
@@ -94,29 +116,14 @@ class TaskControllerTest extends WebTestCase
     {
         $client = $this->login();
         
-<<<<<<< Updated upstream
+
         $crawler = $client->request('GET', '/tasks/6/delete');
         $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
-=======
         $this->client->request('GET', '/tasks/42/delete');
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
->>>>>>> Stashed changes
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a bien été supprimée.");
     }
-=======
-
-class TaskControllerTest extends WebTestCase
-{
-   
->>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
-=======
-
-class TaskControllerTest extends WebTestCase
-{
-   
->>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
-}

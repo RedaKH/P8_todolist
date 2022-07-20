@@ -14,7 +14,10 @@ class SecurityControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-<<<<<<< Updated upstream
+        // retrieve the test user
+        $testUser = $userRepository->findOneByEmail('john.doe@example.com');
+
+
         // retrieve the test user
         $testUser = $userRepository->findOneByEmail('john.doe@example.com');
 
@@ -25,14 +28,15 @@ class SecurityControllerTest extends WebTestCase
         $client->request('GET', '/app_home');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Bienvenue');
-=======
+    }
+    
     public function loginUser(): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
     $testUser = $userRepository->findOneByEmail('vegeta@test.com');
 
     $this->client->loginUser($testUser);
->>>>>>> Stashed changes
+
     }
     
 
