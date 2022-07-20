@@ -28,9 +28,12 @@ class TaskControllerTest extends WebTestCase
             'task[content]'=>'test'
         ]);
 
+<<<<<<< Updated upstream
         $client->submit($form);
         $crawler = $client->followRedirect();
         $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a été bien été ajoutée.");
+=======
+>>>>>>> Stashed changes
     }
 
     public function testEditOwnTask()
@@ -91,9 +94,15 @@ class TaskControllerTest extends WebTestCase
     {
         $client = $this->login();
         
+<<<<<<< Updated upstream
         $crawler = $client->request('GET', '/tasks/6/delete');
         $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
+=======
+        $this->client->request('GET', '/tasks/42/delete');
+        $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->client->followRedirect();
+>>>>>>> Stashed changes
 
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a bien été supprimée.");

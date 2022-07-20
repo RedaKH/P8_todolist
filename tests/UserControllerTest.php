@@ -46,8 +46,27 @@ class UserControllerTest extends WebTestCase
       $this->assertInstanceOf(User::class,$testUser);
 
 
+<<<<<<< Updated upstream
    }
    public function testSuccesssListUser()
+=======
+    public function testMakeAccount(){
+      $crawler = $this->client->request('GET', '/user_create');
+      $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+      $form = $crawler->selectButton('Ajouter')->form([
+          'user[name]' => "rollo4",
+          'user[plainPassword][first]' => "rollo4",
+          'user[plainPassword][second]' => "rollo4",
+          'user[email]' => "rollo4@test.com",
+        ]);
+      $this->client->submit($form);
+      $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), $this->client->getResponse()->getContent());
+
+
+   } 
+   
+   public function testListUser()
+>>>>>>> Stashed changes
    {
        $client = $this->loginAdmin();
        $crawler = $client->request('GET', '/users');
@@ -83,6 +102,7 @@ class UserControllerTest extends WebTestCase
        $this->assertSelectorTextContains('div.alert-success', "Superbe ! L'utilisateur a bien été modifié");
    }
 
+<<<<<<< Updated upstream
 =======
    public function testMakeAccount(){
     $client = static::createClient();
@@ -99,4 +119,8 @@ class UserControllerTest extends WebTestCase
 
    }
 >>>>>>> parent of 55f71a0 (Merge pull request #3 from RedaKH/features/test)
+=======
+ 
+
+>>>>>>> Stashed changes
 }
