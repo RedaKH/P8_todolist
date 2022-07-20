@@ -13,19 +13,19 @@ class HomeControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
     }
-    public function loginAdmin(): void
+    public function loginUser(): void
     {
+        
         $userRepository = static::getContainer()->get(UserRepository::class);
-    $testUser = $userRepository->findOneByEmail('vegeta@test.com');
+        $testUser = $userRepository->findOneByEmail('ragnar@test.com');
 
-    $this->client->loginUser($testUser);
+        $this->client->loginUser($testUser);
     }
-    public function testSomething(): void
-    {
-        $this->loginAdmin();
-        $crawler = $this->client->request('GET', '/');
 
-        $this->assertResponseIsSuccessful();
+    public function testLogin()
+    {
+        $this->loginUser();
+        $this->client->request('GET', '/');
         $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List');
     }
 }

@@ -9,51 +9,27 @@ use App\Repository\UserRepository;
 
 class SecurityControllerTest extends WebTestCase
 {
-    public function testLoginWithBadCredentials()
+    private $client;
+
+    public function setUp(): void
     {
-        $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
-        // retrieve the test user
-        $testUser = $userRepository->findOneByEmail('john.doe@example.com');
-
-
-        // retrieve the test user
-        $testUser = $userRepository->findOneByEmail('john.doe@example.com');
-
-        // simulate $testUser being logged in
-        $client->loginUser($testUser);
-
-        // test e.g. the profile page
-        $client->request('GET', '/app_home');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Bienvenue');
+        $this->client = static::createClient();
     }
-    
     public function loginUser(): void
     {
+        
         $userRepository = static::getContainer()->get(UserRepository::class);
-    $testUser = $userRepository->findOneByEmail('vegeta@test.com');
+        $testUser = $userRepository->findOneByEmail('ragnar@test.com');
 
-    $this->client->loginUser($testUser);
-
+        $this->client->loginUser($testUser);
     }
-    
 
-    public function testLoginWithGoodCredentials()
+    public function testLogin()
     {
-        $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
-        // retrieve the test user
-        $testUser = $userRepository->findOneByEmail('vegeta@test.com');
-
-        // simulate $testUser being logged in
-        $client->loginUser($testUser);
-
-        // test e.g. the profile page
-        $client->request('GET', '/app_home');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List');
+        $this->loginUser();
+        $this->client->request('GET', '/');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
+
+  
 }
