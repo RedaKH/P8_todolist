@@ -9,26 +9,38 @@ use App\Repository\UserRepository;
 
 class SecurityControllerTest extends WebTestCase
 {
-    private $client;
-
-    public function setUp(): void
+    public function testLoginWithBadCredentials()
     {
-        $this->client = static::createClient();
-    }
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
 
-    public function loginUser(): void
+        // retrieve the test user
+        $testUser = $userRepository->findOneByEmail('john.doe@example.com');
+
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+
+        // test e.g. the profile page
+        $client->request('GET', '/app_home');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Bienvenue');
+    }
+    
+
+    public function testLoginWithGoodCredentials()
     {
-        $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->selectButton('Sign in')->form();
-        $this->client->submit($form, ['email' => 'vegeta@test.com', 'password' => 'test']);
-    }
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
 
-    public function testLogin()
-    {
-        $this->loginUser();
-        $this->client->request('GET', '/');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    }
+        // retrieve the test user
+        $testUser = $userRepository->findOneByEmail('vegeta@test.com');
 
-  
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+
+        // test e.g. the profile page
+        $client->request('GET', '/app_home');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List');
+    }
 }
