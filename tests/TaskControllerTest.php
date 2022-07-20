@@ -84,7 +84,7 @@ class TaskControllerTest extends WebTestCase
     {
         $this->loginUser();
         
-        $this->client->request('GET', '/tasks/21/delete');
+        $this->client->request('GET', '/tasks/44/delete');
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
 
