@@ -29,6 +29,14 @@ class TaskControllerTest extends WebTestCase
 
         $this->client->loginUser($testUser);
     }
+    public function loginAdmin(): void
+    {
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail('vegeta@test.com');
+
+        $this->client->loginUser($testUser);
+    }
      public function testMakeTask()
     {
         $this->loginUser();
@@ -82,9 +90,9 @@ class TaskControllerTest extends WebTestCase
 
    public function testDeleteTask()
     {
-        $this->loginUser();
+        $this->loginAdmin();
         
-        $this->client->request('GET', '/tasks/55/delete');
+        $this->client->request('GET', '/tasks/57/delete');
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
 
@@ -92,7 +100,7 @@ class TaskControllerTest extends WebTestCase
     } 
     public function testFailDeleteTask()
     {
-        $this->loginUser();
+        $this->loginAdmin();
         
         $this->client->request('GET', '/tasks/48/delete');
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());

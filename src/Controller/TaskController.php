@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\TaskRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class TaskController extends AbstractController
 {
@@ -94,11 +95,19 @@ class TaskController extends AbstractController
      */
     public function deleteTask(Task $task): Response
     {
+        if (
+            $task->getUser() === $this->getUser() ||
+            ($task->getUser() === null && $this->isGranted('ROLE_ADMIN'))
+        ) {
+
         $this->em->remove($task);
         $this->em->flush();
 
         $this->addFlash('success','la tache a bien été supprimé !');
         return $this->redirectToRoute('task_list');
+        }
+        throw new UnauthorizedHttpException('Vous navez pas les droits pour supprimer cette tâche.');
+
     }
 
      /**
