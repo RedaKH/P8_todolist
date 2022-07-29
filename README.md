@@ -1,4 +1,5 @@
 # P8_todolist
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1a96001db2d1468e984f5a76779099ad)](https://www.codacy.com/gh/RedaKH/P8_todolist/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RedaKH/P8_todolist&amp;utm_campaign=Badge_Grade)
 Installation du projet : 
  
   1/Il faut faire cette commande pour cloner le projet : 
