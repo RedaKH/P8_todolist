@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class TaskController extends AbstractController
 {
@@ -92,21 +93,18 @@ class TaskController extends AbstractController
 
     /**
      *  @Route("/tasks/{id}/delete", name="task_delete")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function deleteTask(Task $task): Response
     {
-        if (
-            $task->getUser() === $this->getUser() ||
-            ($task->getUser() === null && $this->isGranted('ROLE_ADMIN'))
-        ) {
+       
 
         $this->em->remove($task);
         $this->em->flush();
 
         $this->addFlash('success','la tache a bien été supprimé !');
         return $this->redirectToRoute('task_list');
-        }
-        throw new UnauthorizedHttpException('Vous navez pas les droits pour supprimer cette tâche.');
+        
 
     }
 

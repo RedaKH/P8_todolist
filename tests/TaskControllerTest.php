@@ -33,7 +33,7 @@ class TaskControllerTest extends WebTestCase
     {
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail('vegeta@test.com');
+        $testUser = $userRepository->findOneByEmail('freezer@test.com');
 
         $this->client->loginUser($testUser);
     }
@@ -86,13 +86,21 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
         
     }  
+    public function testDeniedDeleteTask()
+    {
+        $this->loginUser();
+        
+        $this->client->request('GET', '/tasks/73/delete');
+
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+    } 
 
 
    public function testDeleteTask()
     {
         $this->loginAdmin();
         
-        $this->client->request('GET', '/tasks/57/delete');
+        $this->client->request('GET', '/tasks/73/delete');
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
 
@@ -106,4 +114,6 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         
     } 
+
+    
 }
