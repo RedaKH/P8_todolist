@@ -90,7 +90,7 @@ class TaskControllerTest extends WebTestCase
     {
         $this->loginUser();
         
-        $this->client->request('GET', '/tasks/73/delete');
+        $this->client->request('GET', '/tasks/75/delete');
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
     } 
@@ -100,7 +100,7 @@ class TaskControllerTest extends WebTestCase
     {
         $this->loginAdmin();
         
-        $this->client->request('GET', '/tasks/73/delete');
+        $this->client->request('GET', '/tasks/75/delete');
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
 
