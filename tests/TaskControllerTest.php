@@ -2,11 +2,12 @@
 
 namespace App\Tests;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Task;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
-use App\Entity\Task;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 
 
@@ -37,6 +38,9 @@ class TaskControllerTest extends WebTestCase
 
         $this->client->loginUser($testUser);
     }
+
+  
+
      public function testMakeTask()
     {
         $this->loginUser();
@@ -89,8 +93,8 @@ class TaskControllerTest extends WebTestCase
     public function testDeniedDeleteTask()
     {
         $this->loginUser();
-        
-        $this->client->request('GET', '/tasks/75/delete');
+
+        $this->client->request('GET', '/tasks/77/delete');
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
     } 
@@ -99,8 +103,8 @@ class TaskControllerTest extends WebTestCase
    public function testDeleteTask()
     {
         $this->loginAdmin();
-        
-        $this->client->request('GET', '/tasks/75/delete');
+
+        $this->client->request('GET', '/tasks/77/delete');
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
 
